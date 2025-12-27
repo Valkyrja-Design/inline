@@ -1,0 +1,34 @@
+baseURL = 'https://valkyrja-design.github.io/inline/'
+languageCode = 'en-us'
+title = 'inline'
+theme = 'archie'
+
+# Code Highlight
+pygmentsstyle = "github-dark"
+pygmentscodefences = true
+pygmentscodefencesguesssyntax = true
+
+[params]
+mode = "toggle"
+
+# Social Tags
+[[params.social]]
+name = "GitHub"
+icon = "github"
+url = "https://github.com/Valkyrja-Design"
+
+# Main menu Items
+[[menu.main]]
+name = "Home"
+url = "/"
+weight = 1
+
+[[menu.main]]
+name = "All posts"
+url = "/posts"
+weight = 2
+
+[[menu.main]]
+name = "Tags"
+url = "/tags"
+weight = 4
