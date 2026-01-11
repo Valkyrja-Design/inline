@@ -72,7 +72,9 @@ int main() {
 }
 ```
 
-See also
+---
 
-- [std::map emplace without copying value](https://stackoverflow.com/questions/27960325/stdmap-emplace-without-copying-value/27960637#27960637)
-- [reason to use emplace over try_emplace](https://stackoverflow.com/questions/46046828/is-there-any-reason-to-use-stdmapemplace-instead-of-try-emplace-in-c17)
+## References
+
+- [StackOverflow: std::map emplace without copying value](https://stackoverflow.com/questions/27960325/stdmap-emplace-without-copying-value/27960637#27960637)
+- [StackOverflow: Is there any reason to use emplace over try_emplace in C++17?](https://stackoverflow.com/questions/46046828/is-there-any-reason-to-use-stdmapemplace-instead-of-try-emplace-in-c17)
