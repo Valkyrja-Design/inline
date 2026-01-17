@@ -10,6 +10,8 @@ pygmentscodefencesguesssyntax = true
 
 [params]
 mode = "toggle"
+# Enable KaTeX for math rendering
+katex = true
 
 # Social Tags
 [[params.social]]
