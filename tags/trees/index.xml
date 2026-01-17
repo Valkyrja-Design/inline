@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Trees on inline</title><link>https://valkyrja-design.github.io/inline/tags/trees/</link><description>Recent content in Trees on inline</description><generator>Hugo</generator><language>en-us</language><lastBuildDate>Sun, 18 Jan 2026 01:04:46 +0530</lastBuildDate><atom:link href="https://valkyrja-design.github.io/inline/tags/trees/index.xml" rel="self" type="application/rss+xml"/><item><title>Morris traversal</title><link>https://valkyrja-design.github.io/inline/posts/morris_traversal/</link><pubDate>Sun, 18 Jan 2026 01:04:46 +0530</pubDate><guid>https://valkyrja-design.github.io/inline/posts/morris_traversal/</guid><description>&lt;p&gt;Apparently, there is a non-recursive binary tree traversal algorithm that uses
+O(1) extra space, called Morris traversal. Let&amp;rsquo;s say our tree node is defined as:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-cpp" data-lang="cpp"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#ff7b72"&gt;struct&lt;/span&gt; &lt;span style="color:#f0883e;font-weight:bold"&gt;Node&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#ff7b72"&gt;int&lt;/span&gt; val;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; Node&lt;span style="color:#ff7b72;font-weight:bold"&gt;*&lt;/span&gt; left;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; Node&lt;span style="color:#ff7b72;font-weight:bold"&gt;*&lt;/span&gt; right;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;};
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id="inorder-traversal"&gt;Inorder Traversal&lt;/h2&gt;
+&lt;p&gt;The algorithm goes like this:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;If the left child of the current node is null, output the current node&amp;rsquo;s value
+and move to the right child.&lt;/li&gt;
+&lt;li&gt;If the left child is not null, find the inorder predecessor of the current
+node
+&lt;ul&gt;
+&lt;li&gt;If the right child of the predecessor is null, set it to point to the current
+node, and move to the left child of the current node.&lt;/li&gt;
+&lt;li&gt;If the right child of the predecessor is the current node, set it back to
+null, output the current node&amp;rsquo;s value, and move to the right child of the
+current node. This step occurs when we have finished traversing the left
+subtree and are back at the current node.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Repeat until all nodes are processed.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;The following image illustrates the algorithm&lt;/p&gt;</description></item></channel></rss>

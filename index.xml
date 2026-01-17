@@ -1,4 +1,29 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>inline</title><link>https://valkyrja-design.github.io/inline/</link><description>Recent content on inline</description><generator>Hugo</generator><language>en-us</language><lastBuildDate>Mon, 12 Jan 2026 02:34:00 +0530</lastBuildDate><atom:link href="https://valkyrja-design.github.io/inline/index.xml" rel="self" type="application/rss+xml"/><item><title>Subnormal numbers</title><link>https://valkyrja-design.github.io/inline/posts/subnormals/</link><pubDate>Mon, 12 Jan 2026 02:34:00 +0530</pubDate><guid>https://valkyrja-design.github.io/inline/posts/subnormals/</guid><description>&lt;p&gt;Floating-point numbers represented using the usual
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>inline</title><link>https://valkyrja-design.github.io/inline/</link><description>Recent content on inline</description><generator>Hugo</generator><language>en-us</language><lastBuildDate>Sun, 18 Jan 2026 01:04:46 +0530</lastBuildDate><atom:link href="https://valkyrja-design.github.io/inline/index.xml" rel="self" type="application/rss+xml"/><item><title>Morris traversal</title><link>https://valkyrja-design.github.io/inline/posts/morris_traversal/</link><pubDate>Sun, 18 Jan 2026 01:04:46 +0530</pubDate><guid>https://valkyrja-design.github.io/inline/posts/morris_traversal/</guid><description>&lt;p&gt;Apparently, there is a non-recursive binary tree traversal algorithm that uses
+O(1) extra space, called Morris traversal. Let&amp;rsquo;s say our tree node is defined as:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-cpp" data-lang="cpp"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#ff7b72"&gt;struct&lt;/span&gt; &lt;span style="color:#f0883e;font-weight:bold"&gt;Node&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#ff7b72"&gt;int&lt;/span&gt; val;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; Node&lt;span style="color:#ff7b72;font-weight:bold"&gt;*&lt;/span&gt; left;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; Node&lt;span style="color:#ff7b72;font-weight:bold"&gt;*&lt;/span&gt; right;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;};
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id="inorder-traversal"&gt;Inorder Traversal&lt;/h2&gt;
+&lt;p&gt;The algorithm goes like this:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;If the left child of the current node is null, output the current node&amp;rsquo;s value
+and move to the right child.&lt;/li&gt;
+&lt;li&gt;If the left child is not null, find the inorder predecessor of the current
+node
+&lt;ul&gt;
+&lt;li&gt;If the right child of the predecessor is null, set it to point to the current
+node, and move to the left child of the current node.&lt;/li&gt;
+&lt;li&gt;If the right child of the predecessor is the current node, set it back to
+null, output the current node&amp;rsquo;s value, and move to the right child of the
+current node. This step occurs when we have finished traversing the left
+subtree and are back at the current node.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Repeat until all nodes are processed.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;The following image illustrates the algorithm&lt;/p&gt;</description></item><item><title>Subnormal numbers</title><link>https://valkyrja-design.github.io/inline/posts/subnormals/</link><pubDate>Mon, 12 Jan 2026 02:34:00 +0530</pubDate><guid>https://valkyrja-design.github.io/inline/posts/subnormals/</guid><description>&lt;p&gt;Floating-point numbers represented using the usual
 &lt;a href="https://en.wikipedia.org/wiki/IEEE_754"&gt;IEEE 754&lt;/a&gt; use the following format for
 a 32-bit &lt;code&gt;float&lt;/code&gt;:&lt;/p&gt;
 &lt;ul&gt;
@@ -9,7 +34,7 @@ a 32-bit &lt;code&gt;float&lt;/code&gt;:&lt;/p&gt;
 &lt;p&gt;&lt;img src="images/float_repr.png" alt="float_repr"&gt;&lt;/p&gt;
 &lt;p&gt;Exponent 0 is reserved for representing subnormal numbers and zero and exponent
 255 is reserved for representing infinity and NaN.&lt;/p&gt;
-&lt;p&gt;Normalized numbers always have the leading bit as 1 (&lt;code&gt;1.xxxxxxx * 2^exp&lt;/code&gt;). This
+&lt;p&gt;Normalized numbers always have the leading bit as 1 (&lt;code&gt;1.xxxxxx * 2^exp&lt;/code&gt;). This
 means that the smallest normalized positive float is &lt;code&gt;1.0 * 2^-126&lt;/code&gt; and we end
 up missing smaller numbers closer to zero. Without subnormals, values very near
 zero would abruptly underflow to zero, which may not be desirable for high

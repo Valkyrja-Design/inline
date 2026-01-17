@@ -9,7 +9,7 @@ a 32-bit &lt;code&gt;float&lt;/code&gt;:&lt;/p&gt;
 &lt;p&gt;&lt;img src="images/float_repr.png" alt="float_repr"&gt;&lt;/p&gt;
 &lt;p&gt;Exponent 0 is reserved for representing subnormal numbers and zero and exponent
 255 is reserved for representing infinity and NaN.&lt;/p&gt;
-&lt;p&gt;Normalized numbers always have the leading bit as 1 (&lt;code&gt;1.xxxxxxx * 2^exp&lt;/code&gt;). This
+&lt;p&gt;Normalized numbers always have the leading bit as 1 (&lt;code&gt;1.xxxxxx * 2^exp&lt;/code&gt;). This
 means that the smallest normalized positive float is &lt;code&gt;1.0 * 2^-126&lt;/code&gt; and we end
 up missing smaller numbers closer to zero. Without subnormals, values very near
 zero would abruptly underflow to zero, which may not be desirable for high

@@ -1,0 +1,134 @@
+<!doctype html><html><head lang=en><meta charset=utf-8><meta http-equiv=X-UA-Compatible content="IE=edge"><title>Morris traversal - inline</title><meta name=viewport content="width=device-width,initial-scale=1"><meta name=description content="Morris binary tree traversal algorithm"><meta property="og:image" content><meta property="og:url" content="https://valkyrja-design.github.io/inline/posts/morris_traversal/"><meta property="og:site_name" content="inline"><meta property="og:title" content="Morris traversal"><meta property="og:description" content="Morris binary tree traversal algorithm"><meta property="og:locale" content="en_us"><meta property="og:type" content="article"><meta property="article:section" content="posts"><meta property="article:published_time" content="2026-01-18T01:04:46+05:30"><meta property="article:modified_time" content="2026-01-18T01:04:46+05:30"><meta property="article:tag" content="Data Structures"><meta property="article:tag" content="Trees"><meta property="article:tag" content="Algorithms"><meta name=twitter:card content="summary"><meta name=twitter:title content="Morris traversal"><meta name=twitter:description content="Morris binary tree traversal algorithm"><link href=https://valkyrja-design.github.io/inline/css/fonts.2c2227b81b1970a03e760aa2e6121cd01f87c88586803cbb282aa224720a765f.css rel=stylesheet><link rel=stylesheet type=text/css media=screen href=https://valkyrja-design.github.io/inline/css/main.a91be01b77f449115ca32bb91f071ef4f25f02998f33b084cb449ded700c062a.css><link id=darkModeStyle rel=stylesheet type=text/css href=https://valkyrja-design.github.io/inline/css/dark.478e7f2b9cf8d87be42edfd9fe1810beab1331847df94b1b430478b309f28282.css disabled></head><body><div class=content><header><div class=main><a href=https://valkyrja-design.github.io/inline/>inline</a></div><nav><a href=/inline/>Home</a>
+<a href=/inline/posts>All posts</a>
+<a href=/inline/tags>Tags</a>
+<button id=dark-mode-toggle class=nav-toggle onclick=toggleTheme() aria-label="Toggle dark mode" type=button><svg class="feather" viewBox="0 0 24 24" fill="none" stroke="#232333" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg></button>
+<script src=https://valkyrja-design.github.io/inline/js/themetoggle.js></script></nav></header><main><article><div class=post-container><div class=post-content><div class=title><h1 class=title>Morris traversal</h1><div class=meta>Posted on Jan 18, 2026</div></div><section class=body><p>Apparently, there is a non-recursive binary tree traversal algorithm that uses
+O(1) extra space, called Morris traversal. Let&rsquo;s say our tree node is defined as:</p><div class=highlight><pre tabindex=0 style=color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-cpp data-lang=cpp><span style=display:flex><span><span style=color:#ff7b72>struct</span> <span style=color:#f0883e;font-weight:700>Node</span> {
+</span></span><span style=display:flex><span>    <span style=color:#ff7b72>int</span> val;
+</span></span><span style=display:flex><span>    Node<span style=color:#ff7b72;font-weight:700>*</span> left;
+</span></span><span style=display:flex><span>    Node<span style=color:#ff7b72;font-weight:700>*</span> right;
+</span></span><span style=display:flex><span>};
+</span></span></code></pre></div><h2 id=inorder-traversal>Inorder Traversal</h2><p>The algorithm goes like this:</p><ul><li>If the left child of the current node is null, output the current node&rsquo;s value
+and move to the right child.</li><li>If the left child is not null, find the inorder predecessor of the current
+node<ul><li>If the right child of the predecessor is null, set it to point to the current
+node, and move to the left child of the current node.</li><li>If the right child of the predecessor is the current node, set it back to
+null, output the current node&rsquo;s value, and move to the right child of the
+current node. This step occurs when we have finished traversing the left
+subtree and are back at the current node.</li></ul></li><li>Repeat until all nodes are processed.</li></ul><p>The following image illustrates the algorithm</p><p><img src=images/inorder.png alt=inorder></p><p>A quick C++ implementation:</p><div class=highlight><pre tabindex=0 style=color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-cpp data-lang=cpp><span style=display:flex><span><span style=color:#ff7b72>void</span> <span style=color:#d2a8ff;font-weight:700>morris_inorder</span>(Node<span style=color:#ff7b72;font-weight:700>*</span> root) {
+</span></span><span style=display:flex><span>    Node<span style=color:#ff7b72;font-weight:700>*</span> curr <span style=color:#ff7b72;font-weight:700>=</span> root;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#ff7b72>while</span> (curr) {
+</span></span><span style=display:flex><span>        <span style=color:#ff7b72>if</span> (curr<span style=color:#ff7b72;font-weight:700>-&gt;</span>left <span style=color:#ff7b72;font-weight:700>==</span> <span style=color:#ff7b72>nullptr</span>) {
+</span></span><span style=display:flex><span>            std<span style=color:#ff7b72;font-weight:700>::</span>cout <span style=color:#ff7b72;font-weight:700>&lt;&lt;</span> curr<span style=color:#ff7b72;font-weight:700>-&gt;</span>val <span style=color:#ff7b72;font-weight:700>&lt;&lt;</span> <span style=color:#a5d6ff>&#34; &#34;</span>;
+</span></span><span style=display:flex><span>            curr <span style=color:#ff7b72;font-weight:700>=</span> curr<span style=color:#ff7b72;font-weight:700>-&gt;</span>right;
+</span></span><span style=display:flex><span>        } <span style=color:#ff7b72>else</span> {
+</span></span><span style=display:flex><span>            <span style=color:#8b949e;font-style:italic>// Find inorder predecessor
+</span></span></span><span style=display:flex><span>            Node<span style=color:#ff7b72;font-weight:700>*</span> pred <span style=color:#ff7b72;font-weight:700>=</span> curr<span style=color:#ff7b72;font-weight:700>-&gt;</span>left;
+</span></span><span style=display:flex><span>            <span style=color:#ff7b72>while</span> (pred<span style=color:#ff7b72;font-weight:700>-&gt;</span>right <span style=color:#ff7b72;font-weight:700>!=</span> <span style=color:#ff7b72>nullptr</span> <span style=color:#ff7b72;font-weight:700>&amp;&amp;</span> pred<span style=color:#ff7b72;font-weight:700>-&gt;</span>right <span style=color:#ff7b72;font-weight:700>!=</span> curr) {
+</span></span><span style=display:flex><span>                pred <span style=color:#ff7b72;font-weight:700>=</span> pred<span style=color:#ff7b72;font-weight:700>-&gt;</span>right;
+</span></span><span style=display:flex><span>            }
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>            <span style=color:#ff7b72>if</span> (pred<span style=color:#ff7b72;font-weight:700>-&gt;</span>right <span style=color:#ff7b72;font-weight:700>==</span> <span style=color:#ff7b72>nullptr</span>) {
+</span></span><span style=display:flex><span>                pred<span style=color:#ff7b72;font-weight:700>-&gt;</span>right <span style=color:#ff7b72;font-weight:700>=</span> curr;
+</span></span><span style=display:flex><span>                curr <span style=color:#ff7b72;font-weight:700>=</span> curr<span style=color:#ff7b72;font-weight:700>-&gt;</span>left;
+</span></span><span style=display:flex><span>            } <span style=color:#ff7b72>else</span> {
+</span></span><span style=display:flex><span>                <span style=color:#8b949e;font-style:italic>// Restore the tree
+</span></span></span><span style=display:flex><span>                pred<span style=color:#ff7b72;font-weight:700>-&gt;</span>right <span style=color:#ff7b72;font-weight:700>=</span> <span style=color:#ff7b72>nullptr</span>;
+</span></span><span style=display:flex><span>                std<span style=color:#ff7b72;font-weight:700>::</span>cout <span style=color:#ff7b72;font-weight:700>&lt;&lt;</span> curr<span style=color:#ff7b72;font-weight:700>-&gt;</span>val <span style=color:#ff7b72;font-weight:700>&lt;&lt;</span> <span style=color:#a5d6ff>&#34; &#34;</span>;
+</span></span><span style=display:flex><span>                curr <span style=color:#ff7b72;font-weight:700>=</span> curr<span style=color:#ff7b72;font-weight:700>-&gt;</span>right;
+</span></span><span style=display:flex><span>            }
+</span></span><span style=display:flex><span>        }
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><h2 id=preorder-traversal>Preorder Traversal</h2><p>The algorithm for preorder traversal is essentially the same, the only
+difference being that before moving to the left child, we output the current
+node&rsquo;s value.</p><p><img src=images/preorder.png alt=preorder></p><p>C++ implementation:</p><div class=highlight><pre tabindex=0 style=color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-cpp data-lang=cpp><span style=display:flex><span><span style=color:#ff7b72>void</span> <span style=color:#d2a8ff;font-weight:700>morris_preorder</span>(Node<span style=color:#ff7b72;font-weight:700>*</span> root) {
+</span></span><span style=display:flex><span>    Node<span style=color:#ff7b72;font-weight:700>*</span> curr <span style=color:#ff7b72;font-weight:700>=</span> root;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#ff7b72>while</span> (curr) {
+</span></span><span style=display:flex><span>        <span style=color:#ff7b72>if</span> (curr<span style=color:#ff7b72;font-weight:700>-&gt;</span>left <span style=color:#ff7b72;font-weight:700>==</span> <span style=color:#ff7b72>nullptr</span>) {
+</span></span><span style=display:flex><span>            std<span style=color:#ff7b72;font-weight:700>::</span>cout <span style=color:#ff7b72;font-weight:700>&lt;&lt;</span> curr<span style=color:#ff7b72;font-weight:700>-&gt;</span>val <span style=color:#ff7b72;font-weight:700>&lt;&lt;</span> <span style=color:#a5d6ff>&#34; &#34;</span>;
+</span></span><span style=display:flex><span>            curr <span style=color:#ff7b72;font-weight:700>=</span> curr<span style=color:#ff7b72;font-weight:700>-&gt;</span>right;
+</span></span><span style=display:flex><span>        } <span style=color:#ff7b72>else</span> {
+</span></span><span style=display:flex><span>            <span style=color:#8b949e;font-style:italic>// Find inorder predecessor
+</span></span></span><span style=display:flex><span>            Node<span style=color:#ff7b72;font-weight:700>*</span> pred <span style=color:#ff7b72;font-weight:700>=</span> curr<span style=color:#ff7b72;font-weight:700>-&gt;</span>left;
+</span></span><span style=display:flex><span>            <span style=color:#ff7b72>while</span> (pred<span style=color:#ff7b72;font-weight:700>-&gt;</span>right <span style=color:#ff7b72;font-weight:700>!=</span> <span style=color:#ff7b72>nullptr</span> <span style=color:#ff7b72;font-weight:700>&amp;&amp;</span> pred<span style=color:#ff7b72;font-weight:700>-&gt;</span>right <span style=color:#ff7b72;font-weight:700>!=</span> curr) {
+</span></span><span style=display:flex><span>                pred <span style=color:#ff7b72;font-weight:700>=</span> pred<span style=color:#ff7b72;font-weight:700>-&gt;</span>right;
+</span></span><span style=display:flex><span>            }
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>            <span style=color:#ff7b72>if</span> (pred<span style=color:#ff7b72;font-weight:700>-&gt;</span>right <span style=color:#ff7b72;font-weight:700>==</span> <span style=color:#ff7b72>nullptr</span>) {
+</span></span><span style=display:flex><span>                std<span style=color:#ff7b72;font-weight:700>::</span>cout <span style=color:#ff7b72;font-weight:700>&lt;&lt;</span> curr<span style=color:#ff7b72;font-weight:700>-&gt;</span>val <span style=color:#ff7b72;font-weight:700>&lt;&lt;</span> <span style=color:#a5d6ff>&#34; &#34;</span>;
+</span></span><span style=display:flex><span>                pred<span style=color:#ff7b72;font-weight:700>-&gt;</span>right <span style=color:#ff7b72;font-weight:700>=</span> curr;
+</span></span><span style=display:flex><span>                curr <span style=color:#ff7b72;font-weight:700>=</span> curr<span style=color:#ff7b72;font-weight:700>-&gt;</span>left;
+</span></span><span style=display:flex><span>            } <span style=color:#ff7b72>else</span> {
+</span></span><span style=display:flex><span>                <span style=color:#8b949e;font-style:italic>// Restore the tree
+</span></span></span><span style=display:flex><span>                pred<span style=color:#ff7b72;font-weight:700>-&gt;</span>right <span style=color:#ff7b72;font-weight:700>=</span> <span style=color:#ff7b72>nullptr</span>;
+</span></span><span style=display:flex><span>                curr <span style=color:#ff7b72;font-weight:700>=</span> curr<span style=color:#ff7b72;font-weight:700>-&gt;</span>right;
+</span></span><span style=display:flex><span>            }
+</span></span><span style=display:flex><span>        }
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><h2 id=postorder-traversal>Postorder Traversal</h2><p>Postorder traversal is a bit trickier. The idea is that when we find that the
+right child of the predecessor points to the current node, we output the nodes
+starting from the left child of the current node to the predecessor in reverse
+order. This will visit the &ldquo;root&rdquo; nodes after their subtrees have been visited.</p><p><img src=images/postorder.png alt=postorder></p><p>C++ implementation:</p><div class=highlight><pre tabindex=0 style=color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-cpp data-lang=cpp><span style=display:flex><span><span style=color:#ff7b72>void</span> <span style=color:#d2a8ff;font-weight:700>reverse_path</span>(Node<span style=color:#ff7b72;font-weight:700>*</span> start, Node<span style=color:#ff7b72;font-weight:700>*</span> end) {
+</span></span><span style=display:flex><span>    <span style=color:#ff7b72>if</span> (start <span style=color:#ff7b72;font-weight:700>==</span> end) {
+</span></span><span style=display:flex><span>        <span style=color:#ff7b72>return</span>;
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    Node<span style=color:#ff7b72;font-weight:700>*</span> prev <span style=color:#ff7b72;font-weight:700>=</span> start;
+</span></span><span style=display:flex><span>    Node<span style=color:#ff7b72;font-weight:700>*</span> curr <span style=color:#ff7b72;font-weight:700>=</span> start<span style=color:#ff7b72;font-weight:700>-&gt;</span>right;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#ff7b72>while</span> (prev <span style=color:#ff7b72;font-weight:700>!=</span> end) {
+</span></span><span style=display:flex><span>        Node<span style=color:#ff7b72;font-weight:700>*</span> next <span style=color:#ff7b72;font-weight:700>=</span> curr<span style=color:#ff7b72;font-weight:700>-&gt;</span>right;
+</span></span><span style=display:flex><span>        curr<span style=color:#ff7b72;font-weight:700>-&gt;</span>right <span style=color:#ff7b72;font-weight:700>=</span> prev;
+</span></span><span style=display:flex><span>        prev <span style=color:#ff7b72;font-weight:700>=</span> curr;
+</span></span><span style=display:flex><span>        curr <span style=color:#ff7b72;font-weight:700>=</span> next;
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#ff7b72>void</span> <span style=color:#d2a8ff;font-weight:700>print_reverse</span>(Node<span style=color:#ff7b72;font-weight:700>*</span> start, Node<span style=color:#ff7b72;font-weight:700>*</span> end) {
+</span></span><span style=display:flex><span>    reverse_path(start, end);
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    Node<span style=color:#ff7b72;font-weight:700>*</span> curr <span style=color:#ff7b72;font-weight:700>=</span> end;
+</span></span><span style=display:flex><span>    <span style=color:#ff7b72>while</span> (true) {
+</span></span><span style=display:flex><span>        std<span style=color:#ff7b72;font-weight:700>::</span>cout <span style=color:#ff7b72;font-weight:700>&lt;&lt;</span> curr<span style=color:#ff7b72;font-weight:700>-&gt;</span>val <span style=color:#ff7b72;font-weight:700>&lt;&lt;</span> <span style=color:#a5d6ff>&#34; &#34;</span>;
+</span></span><span style=display:flex><span>        <span style=color:#ff7b72>if</span> (curr <span style=color:#ff7b72;font-weight:700>==</span> start) {
+</span></span><span style=display:flex><span>            <span style=color:#ff7b72>break</span>;
+</span></span><span style=display:flex><span>        }
+</span></span><span style=display:flex><span>        curr <span style=color:#ff7b72;font-weight:700>=</span> curr<span style=color:#ff7b72;font-weight:700>-&gt;</span>right;
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    reverse_path(end, start);
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#ff7b72>void</span> <span style=color:#d2a8ff;font-weight:700>morris_postorder</span>(Node<span style=color:#ff7b72;font-weight:700>*</span> root) {
+</span></span><span style=display:flex><span>    <span style=color:#8b949e;font-style:italic>// Dummy parent ensures the root&#39;s left subtree is printed. Postorder prints
+</span></span></span><span style=display:flex><span>    <span style=color:#8b949e;font-style:italic>// when restoring links, but root has no parent link to restore.
+</span></span></span><span style=display:flex><span>    Node dummy;
+</span></span><span style=display:flex><span>    dummy.left <span style=color:#ff7b72;font-weight:700>=</span> root;
+</span></span><span style=display:flex><span>    Node<span style=color:#ff7b72;font-weight:700>*</span> curr <span style=color:#ff7b72;font-weight:700>=</span> <span style=color:#ff7b72;font-weight:700>&amp;</span>dummy;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#ff7b72>while</span> (curr) {
+</span></span><span style=display:flex><span>        <span style=color:#ff7b72>if</span> (curr<span style=color:#ff7b72;font-weight:700>-&gt;</span>left <span style=color:#ff7b72;font-weight:700>==</span> <span style=color:#ff7b72>nullptr</span>) {
+</span></span><span style=display:flex><span>            curr <span style=color:#ff7b72;font-weight:700>=</span> curr<span style=color:#ff7b72;font-weight:700>-&gt;</span>right;
+</span></span><span style=display:flex><span>        } <span style=color:#ff7b72>else</span> {
+</span></span><span style=display:flex><span>            <span style=color:#8b949e;font-style:italic>// Find inorder predecessor
+</span></span></span><span style=display:flex><span>            Node<span style=color:#ff7b72;font-weight:700>*</span> pred <span style=color:#ff7b72;font-weight:700>=</span> curr<span style=color:#ff7b72;font-weight:700>-&gt;</span>left;
+</span></span><span style=display:flex><span>            <span style=color:#ff7b72>while</span> (pred<span style=color:#ff7b72;font-weight:700>-&gt;</span>right <span style=color:#ff7b72;font-weight:700>!=</span> <span style=color:#ff7b72>nullptr</span> <span style=color:#ff7b72;font-weight:700>&amp;&amp;</span> pred<span style=color:#ff7b72;font-weight:700>-&gt;</span>right <span style=color:#ff7b72;font-weight:700>!=</span> curr) {
+</span></span><span style=display:flex><span>                pred <span style=color:#ff7b72;font-weight:700>=</span> pred<span style=color:#ff7b72;font-weight:700>-&gt;</span>right;
+</span></span><span style=display:flex><span>            }
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>            <span style=color:#ff7b72>if</span> (pred<span style=color:#ff7b72;font-weight:700>-&gt;</span>right <span style=color:#ff7b72;font-weight:700>==</span> <span style=color:#ff7b72>nullptr</span>) {
+</span></span><span style=display:flex><span>                pred<span style=color:#ff7b72;font-weight:700>-&gt;</span>right <span style=color:#ff7b72;font-weight:700>=</span> curr;
+</span></span><span style=display:flex><span>                curr <span style=color:#ff7b72;font-weight:700>=</span> curr<span style=color:#ff7b72;font-weight:700>-&gt;</span>left;
+</span></span><span style=display:flex><span>            } <span style=color:#ff7b72>else</span> {
+</span></span><span style=display:flex><span>                <span style=color:#8b949e;font-style:italic>// Restore the tree and print the reverse path
+</span></span></span><span style=display:flex><span>                print_reverse(curr<span style=color:#ff7b72;font-weight:700>-&gt;</span>left, pred);
+</span></span><span style=display:flex><span>                pred<span style=color:#ff7b72;font-weight:700>-&gt;</span>right <span style=color:#ff7b72;font-weight:700>=</span> <span style=color:#ff7b72>nullptr</span>;
+</span></span><span style=display:flex><span>                curr <span style=color:#ff7b72;font-weight:700>=</span> curr<span style=color:#ff7b72;font-weight:700>-&gt;</span>right;
+</span></span><span style=display:flex><span>            }
+</span></span><span style=display:flex><span>        }
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><hr><h2 id=references>References</h2><ul><li><a href=https://www.cnblogs.com/AnnieKim/archive/2013/06/15/morristraversal.html>Annie Kim&rsquo;s blog: Morris Traversal</a></li></ul></section><div class=post-tags><nav class="nav tags"><ul class=tags><li><a href=/tags/data-structures>data structures</a></li><li><a href=/tags/trees>trees</a></li><li><a href=/tags/algorithms>algorithms</a></li></ul></nav></div></div></div></article></main><footer><div style=display:flex><a class=soc href=https://github.com/Valkyrja-Design rel=me title=GitHub><svg class="feather"><use href="/inline/svg/feather-sprite.51cf5647cb1987f769b616558f2620fd9423d72058490231b391bf6aa3744b55.svg#github"/></svg></a><a class=border></a></div><div class=footer-info>2026 <a href=https://github.com/athul/archie>Archie Theme</a> | Built with <a href=https://gohugo.io>Hugo</a></div></footer></div></body></html>
