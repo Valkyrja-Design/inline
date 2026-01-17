@@ -19,7 +19,7 @@ a 32-bit `float`:
 Exponent 0 is reserved for representing subnormal numbers and zero and exponent
 255 is reserved for representing infinity and NaN.
 
-Normalized numbers always have the leading bit as 1 (`1.xxxxxxx * 2^exp`). This
+Normalized numbers always have the leading bit as 1 (`1.xxxxxx * 2^exp`). This
 means that the smallest normalized positive float is `1.0 * 2^-126` and we end
 up missing smaller numbers closer to zero. Without subnormals, values very near
 zero would abruptly underflow to zero, which may not be desirable for high
@@ -27,14 +27,13 @@ precision calculations.
 
 Subnormal numbers help with this by always storing the exponent as 0 and using
 -126 as actual exponent value, and having the leading bit as 0
-(`0.xxxxxxx * 2^-126`).
+(`0.xxxxxx * 2^-126`).
 
 The largest positive subnormal float is `0.FFFFFE * 2^-126` (i.e., 23 fraction
 bits set) which is very close to the smallest normalized float so we get
 continuity and the smallest positive subnormal float is `0.000002 * 2^-126` (
 i.e., only the least significant fraction bit set) which is also very close to
-zero. Subnormal numbers essentially double the representable range of values for
-exponent -126 that we would have had with just normalized numbers.
+zero.
 
 While subnormals are good and all, some processors do not handle them as well as
 normalized numbers and operations involving subnormals can be significantly
